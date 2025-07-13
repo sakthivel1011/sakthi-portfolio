@@ -12,10 +12,10 @@ import MenuIcon from "@mui/icons-material/Menu";
 import { useState } from "react";
 
 const MenuItems = [
-  { name: "Home", path: "/" },
-  { name: "About", path: "/about" },
-  { name: "Projects", path: "/projects" },
-  { name: "Contact", path: "/contact" },
+  { name: "Home", path: "/sakthi-portfolio/" },
+  { name: "About", path: "/sakthi-portfolio/about" },
+  { name: "Projects", path: "/sakthi-portfolio/projects" },
+  { name: "Contact", path: "/sakthi-portfolio/contact" },
 ];
 
 const Navbar = () => {
