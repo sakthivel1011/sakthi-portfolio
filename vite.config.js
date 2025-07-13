@@ -7,5 +7,5 @@ export default defineConfig({
   optimizeDeps: {
     include: ["@emailjs/browser"],
   },
-  base: "/sakhti-portfolio",
+  base: "/sakthi-portfolio/",
 });
