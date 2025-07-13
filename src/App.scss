@@ -1,0 +1,12 @@
+.app-container {
+  min-height: 90vh;
+  position: relative;
+  background: linear-gradient(135deg, #0f2027, #203a43);
+  color: white;
+
+  .main-content {
+    margin-top: 64px; // Matches navbar height
+    min-height: calc(100vh - 64px);
+    // border: 1px solid red; // Temporary debug
+  }
+}

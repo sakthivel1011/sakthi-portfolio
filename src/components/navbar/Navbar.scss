@@ -1,0 +1,51 @@
+.navbar-appbar {
+  background: transparent;
+  box-shadow: none;
+
+  border-bottom: 1px solid rgba(114, 224, 209, 0.1); // Subtle accent border
+
+  // Matches home's gradient theme
+  &::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    opacity: 0.3;
+  }
+}
+
+.navbar-toolbar {
+  justify-content: center;
+  gap: 1rem; // Matches home's gap units
+  padding: 0 1rem; // Consistent with home's padding
+
+  @media (min-width: 900px) {
+    justify-content: flex-end;
+    gap: 2rem; // Increased gap for desktop
+    padding: 0 2rem; // Matches home's larger desktop spacing
+  }
+}
+
+.navbar-button {
+  color: #fff;
+  text-transform: none;
+  font-size: 1rem; // Unified font size
+  font-weight: 500; // Slightly bolder for better hierarchy
+  min-width: auto;
+  padding: 0.5rem 1rem;
+  letter-spacing: 0.5px; // Improved readability
+  transition: all 0.3s ease; // Matches home's transitions
+
+  &:hover {
+    color: #72e0d1;
+    background-color: transparent;
+    transform: translateY(-2px); // Subtle lift like social icons
+  }
+
+  @media (min-width: 900px) {
+    font-size: 1.1rem; // Matches home's subtitle scaling
+    padding: 0.5rem 1.5rem;
+  }
+}

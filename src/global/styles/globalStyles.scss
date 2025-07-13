@@ -1,0 +1,35 @@
+/* src/styles/global.scss */
+.water-drop {
+  position: fixed;
+  border: 2px solid #72e0d1;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 9999;
+  transform: translate(-50%, -50%);
+}
+
+.custom-cursor {
+  position: fixed;
+  pointer-events: none;
+  z-index: 9999;
+  transition: transform 0.1s ease;
+}
+
+@media (max-width: 768px) {
+  .custom-cursor {
+    display: none;
+  }
+
+  body {
+    cursor: default !important;
+  }
+}
+
+/* Add this to your root component */
+body {
+  cursor: none;
+
+  @media (max-width: 768px) {
+    cursor: default;
+  }
+}
