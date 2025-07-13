@@ -6,6 +6,6 @@ export default defineConfig({
   plugins: [react()],
   optimizeDeps: {
     include: ["@emailjs/browser"],
-    base: "/sakhti-portfolio",
   },
+  base: "/sakhti-portfolio",
 });
