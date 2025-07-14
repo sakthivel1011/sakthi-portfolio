@@ -9,20 +9,18 @@ const WaterDrops = () => {
 
   useEffect(() => {
     const handleClick = (e) => {
-      if (isMobile) {
-        setClicks((prev) => [
-          ...prev,
-          {
-            id: Date.now(),
-            x: e.clientX || e.touches[0].clientX,
-            y: e.clientY || e.touches[0].clientY,
-          },
-        ]);
+      setClicks((prev) => [
+        ...prev,
+        {
+          id: Date.now(),
+          x: e.clientX || e.touches[0].clientX,
+          y: e.clientY || e.touches[0].clientY,
+        },
+      ]);
 
-        setTimeout(() => {
-          setClicks((prev) => prev.slice(1));
-        }, 1000);
-      }
+      setTimeout(() => {
+        setClicks((prev) => prev.slice(1));
+      }, 1000);
     };
 
     window.addEventListener("click", handleClick);
@@ -32,7 +30,7 @@ const WaterDrops = () => {
       window.removeEventListener("click", handleClick);
       window.removeEventListener("touchstart", handleClick);
     };
-  }, [isMobile]);
+  }, []);
 
   const waterDropVariants = {
     initial: { scale: 0, opacity: 1 },
