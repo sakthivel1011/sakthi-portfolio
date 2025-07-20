@@ -55,9 +55,10 @@ const WaterDrops = () => {
             width: 40,
             height: 40,
             borderRadius: "50%",
-            border: "2px solid #72e0d1",
+            border: "2px solid #f59e0b", // Changed from #72e0d1 to #f59e0b (line 38)
             pointerEvents: "none",
             zIndex: 9999,
+            boxShadow: "0 0 10px #fbbf24", // Added orange glow effect (line 40)
           }}
         />
       ))}

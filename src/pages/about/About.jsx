@@ -1,303 +1,449 @@
-import {
-  Box,
-  Typography,
-  Paper,
-  Divider,
-  Chip,
-  Avatar,
-  Collapse,
-} from "@mui/material";
-import {
-  EmojiObjects as ObjectiveIcon,
-  Code as SkillsIcon,
-  School as EducationIcon,
-  Work as ExperienceIcon,
-  Star as AchievementIcon,
-  ExpandMore as ExpandMoreIcon,
-} from "@mui/icons-material";
-import { useState } from "react";
-import { motion } from "framer-motion";
+import { Box, Typography, useMediaQuery } from "@mui/material";
+import { motion, useAnimation } from "framer-motion";
+import { useInView } from "react-intersection-observer";
+import { useEffect, useState } from "react";
 import "./About.scss";
-import myImage from "../../assets/Sakthivel.png";
 
 const About = () => {
-  const [expanded, setExpanded] = useState({
-    skills: true,
-    education: true,
-    experience: true,
-    achievements: true,
-  });
+  const [ref, inView] = useInView({ threshold: 0.1 });
+  const controls = useAnimation();
+  const [activeTab, setActiveTab] = useState(0);
+  const isMobile = useMediaQuery("(max-width:900px)");
 
-  const toggleSection = (section) => {
-    setExpanded((prev) => ({ ...prev, [section]: !prev[section] }));
-  };
-
-  const scrollToSection = (sectionId) => {
-    const element = document.getElementById(sectionId);
-    if (element) {
-      const yOffset = -80; // Adjust for navbar height
-      const y =
-        element.getBoundingClientRect().top + window.pageYOffset + yOffset;
-      window.scrollTo({ top: y, behavior: "smooth" });
+  useEffect(() => {
+    if (inView) {
+      controls.start("visible");
     }
-  };
+  }, [controls, inView]);
 
-  const skills = {
-    core: ["Java", "Python", "JavaScript"],
-    web: ["HTML5", "CSS3", "React", "Material UI"],
-    databases: ["SQL", "MySQL", "SQLite"],
-    tools: ["Git", "VS Code", "IntelliJ IDEA"],
-  };
-
-  const education = [
+  const aboutData = [
     {
-      period: "2020 - 2024",
-      degree: "B.E. Computer Science & Engineering",
-      institute: "Einstein College of Engineering",
-      grade: "CGPA: 7.74/10.0",
-      achievements: [
-        "Specialized in Software Development",
-        "Coursework in Data Structures, Algorithms, and DBMS",
+      title: "The Developer",
+      icon: "💻",
+      content: [
+        "Full-stack developer with 3+ years experience",
+        "Specialized in React, Node.js, and modern web technologies",
+        "Passionate about creating pixel-perfect UIs",
       ],
+      skills: ["React", "Node.js", "TypeScript", "GraphQL", "MongoDB"],
+      color: "#f59e0b",
     },
-  ];
-
-  const experience = [
     {
-      role: "Web Development Intern",
-      company: "Brazy Technologies",
-      period: "Jun 2023 - Jul 2023",
-      description:
-        "Developed responsive web interfaces using HTML, CSS, and JavaScript",
+      title: "The Student",
+      icon: "📚",
+      content: [
+        "B.E. Computer Science & Engineering",
+        "Einstein College of Engineering (2020-2024)",
+        "CGPA: 7.74/10.0",
+      ],
+      skills: ["Algorithms", "Data Structures", "AI/ML", "Cloud Computing"],
+      color: "#fbbf24",
     },
-  ];
-
-  const achievements = [
-    "Runner-up in Technical Quiz - JP College",
-    "AI-powered Fitness Analyzer project selected in NIRAL Thiruvizha",
+    {
+      title: "The Professional",
+      icon: "👔",
+      content: [
+        "Web Development Intern at Brazy Technologies",
+        "Jun 2023 - Jul 2023",
+        "Developed responsive web interfaces",
+      ],
+      skills: ["Teamwork", "Agile", "Problem Solving", "Communication"],
+      color: "#f97316",
+    },
+    {
+      title: "The Achiever",
+      icon: "🏆",
+      content: [
+        "Runner-up in Technical Quiz - JP College",
+        "AI-powered Fitness Analyzer project selected in NIRAL Thiruvizha",
+      ],
+      skills: ["Leadership", "Public Speaking", "Mentoring"],
+      color: "#ea580c",
+    },
   ];
 
   return (
-    <Box className="about-container">
+    <Box
+      component="section"
+      className="about-section"
+      ref={ref}
+      sx={{
+        position: "relative",
+        overflow: "hidden",
+        py: 10,
+        px: isMobile ? 2 : 10,
+        background: "linear-gradient(135deg, #fff7ed, #ffedd5)",
+      }}
+    >
+      {/* Floating Orange Slices */}
       <motion.div
+        className="floating-oranges"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        transition={{ duration: 0.8 }}
+        transition={{ duration: 1 }}
       >
-        <Paper className="profile-card" elevation={3}>
-          {/* Header Section */}
-          <Box className="header-section">
-            <Avatar
-              src={myImage}
-              className="profile-avatar"
-              component={motion.div}
-              whileHover={{ scale: 1.05 }}
-            />
-            <Box>
-              <Typography variant="h3" className="name-title">
-                Sakthivel P
-              </Typography>
-              <Typography variant="subtitle1" className="job-title">
-                SOFTWARE ENGINEER
-              </Typography>
-              <Typography variant="body2" className="contact-info">
-                +91 6379563485 | sakthivel.p1011@gmail.com
-              </Typography>
-            </Box>
-          </Box>
+        {[...Array(6)].map((_, i) => (
+          <motion.div
+            key={i}
+            className="orange-slice"
+            initial={{
+              y: Math.random() * 100,
+              x: Math.random() * 100,
+              rotate: Math.random() * 360,
+              scale: 0.8 + Math.random() * 0.4,
+            }}
+            animate={{
+              y: [0, Math.random() * 40 - 20],
+              x: [0, Math.random() * 30 - 15],
+              rotate: [0, Math.random() * 30 - 15],
+            }}
+            transition={{
+              duration: Math.random() * 10 + 10,
+              repeat: Infinity,
+              repeatType: "reverse",
+              ease: "easeInOut",
+            }}
+          />
+        ))}
+      </motion.div>
 
-          <Divider className="divider" />
+      {/* Bouncing Title */}
+      <motion.div
+        className="title-container"
+        initial={{ opacity: 0, y: 50 }}
+        animate={controls}
+        variants={{
+          visible: {
+            opacity: 1,
+            y: 0,
+            transition: {
+              type: "spring",
+              stiffness: 100,
+              damping: 10,
+            },
+          },
+        }}
+      >
+        <Typography
+          variant="h2"
+          className="section-title"
+          component={motion.div}
+          whileHover={{
+            scale: 1.05,
+            rotate: [0, -2, 2, -2, 0],
+            transition: { duration: 0.5 },
+          }}
+        >
+          <motion.span
+            className="title-highlight"
+            animate={{
+              rotate: [0, 5, -5, 0],
+              y: [0, -5, 5, 0],
+            }}
+            transition={{
+              duration: 4,
+              repeat: Infinity,
+              repeatType: "reverse",
+              ease: "easeInOut",
+            }}
+          >
+            Hello!
+          </motion.span>{" "}
+          Let Me Introduce Myself
+        </Typography>
+        <motion.div
+          className="section-subtitle"
+          animate={{
+            scale: [1, 1.02, 1],
+          }}
+          transition={{
+            duration: 3,
+            repeat: Infinity,
+            repeatType: "reverse",
+            ease: "easeInOut",
+          }}
+        >
+          Click on the cute bubbles to explore different sides of me
+        </motion.div>
+      </motion.div>
 
-          {/* Objective Section */}
-          <Box className="section" id="objective-section">
-            <Box className="section-header">
-              <ObjectiveIcon className="section-icon" />
-              <Typography variant="h5" className="section-title">
-                Professional Profile
-              </Typography>
-            </Box>
-            <Typography className="section-content">
-              Innovative software engineer with a passion for creating elegant
-              solutions. Combines technical expertise with creative
-              problem-solving to deliver exceptional user experiences and robust
-              systems architecture.
-            </Typography>
-          </Box>
+      {/* Bubbly Selector */}
 
-          {/* Skills Section */}
-          <Box className="section" id="skills-section">
-            <Box
-              className="section-header clickable"
+      <motion.div
+        className="bubbly-selector"
+        initial="hidden"
+        animate={controls}
+        variants={{
+          visible: { transition: { staggerChildren: 0.2 } },
+        }}
+      >
+        {aboutData.map((item, index) => {
+          const isSelected = activeTab === index;
+          const isNewlySelected = isSelected; // Track if this is the newly selected one
+
+          return (
+            <motion.div
+              key={index}
+              className={`bubble ${isSelected ? "active" : ""}`}
+              style={{
+                backgroundColor: item.color,
+                filter: `drop-shadow(0 5px 15px ${item.color}88)`,
+                margin: "0 15px",
+              }}
+              variants={{
+                hidden: { y: 20, opacity: 0 },
+                visible: {
+                  y: 0,
+                  opacity: 1,
+                  transition: {
+                    type: "spring",
+                    stiffness: 100,
+                    damping: 10,
+                  },
+                },
+              }}
+              whileHover={{
+                scale: 1.1,
+                y: -10,
+              }}
+              whileTap={{
+                scale: 0.95,
+              }}
               onClick={() => {
-                toggleSection("skills");
-                scrollToSection("skills-section");
+                if (!isSelected) {
+                  setActiveTab(index);
+                }
+              }}
+              animate={{
+                y: isSelected ? [0, -10, 0] : 0,
+                rotate: isNewlySelected ? 360 : 0, // Only rotate when newly selected
+              }}
+              transition={{
+                y: {
+                  duration: 2,
+                  repeat: Infinity,
+                  repeatType: "loop",
+                  ease: "easeInOut",
+                },
+                rotate: {
+                  duration: 0.6,
+                  ease: "backOut",
+                },
+              }}
+              onAnimationComplete={() => {
+                // Reset rotation after animation completes
+                if (isNewlySelected) {
+                  setTimeout(() => {
+                    // This ensures the rotation resets smoothly
+                  }, 0);
+                }
               }}
             >
-              <SkillsIcon className="section-icon" />
-              <Typography variant="h5" className="section-title">
-                Technical Competencies
-              </Typography>
-              <ExpandMoreIcon
-                className={`expand-icon ${expanded.skills ? "expanded" : ""}`}
-              />
-            </Box>
-            <Collapse in={expanded.skills}>
-              <Box className="skills-container">
-                {Object.entries(skills).map(([category, items]) => (
-                  <Box key={category} className="skills-category">
-                    <Typography
-                      variant="subtitle1"
-                      className="skills-category-title"
-                    >
-                      {category.charAt(0).toUpperCase() + category.slice(1)}
-                    </Typography>
-                    <Box className="skills-grid">
-                      {items.map((skill) => (
-                        <Chip
-                          key={skill}
-                          label={skill}
-                          className="skill-chip"
-                          variant="outlined"
-                          component={motion.div}
-                          whileHover={{ scale: 1.05 }}
-                        />
-                      ))}
-                    </Box>
-                  </Box>
-                ))}
-              </Box>
-            </Collapse>
-          </Box>
+              <motion.div
+                className="bubble-icon"
+                animate={{
+                  scale: isSelected ? 1.2 : 1,
+                  rotate: isNewlySelected ? -360 : 0, // Counter-rotate only when newly selected
+                }}
+                transition={{
+                  rotate: {
+                    duration: 0.6,
+                    ease: "backOut",
+                  },
+                  scale: {
+                    type: "spring",
+                    stiffness: 200,
+                  },
+                }}
+              >
+                {item.icon}
+              </motion.div>
 
-          {/* Education Section */}
-          <Box className="section" id="education-section">
-            <Box
-              className="section-header clickable"
-              onClick={() => {
-                toggleSection("education");
-                scrollToSection("education-section");
-              }}
-            >
-              <EducationIcon className="section-icon" />
-              <Typography variant="h5" className="section-title">
-                Education Background
-              </Typography>
-              <ExpandMoreIcon
-                className={`expand-icon ${
-                  expanded.education ? "expanded" : ""
-                }`}
-              />
-            </Box>
-            <Collapse in={expanded.education}>
-              <Box className="education-container">
-                {education.map((edu, index) => (
-                  <Paper key={index} className="education-item" elevation={2}>
-                    <Typography
-                      variant="subtitle2"
-                      className="education-period"
-                    >
-                      {edu.period}
-                    </Typography>
-                    <Typography variant="h6" className="education-degree">
-                      {edu.degree}
-                    </Typography>
-                    <Typography className="education-institute">
-                      {edu.institute}
-                    </Typography>
-                    <Typography className="education-grade">
-                      {edu.grade}
-                    </Typography>
-                    {edu.achievements && (
-                      <Box className="education-achievements">
-                        <Typography
-                          variant="body2"
-                          className="achievements-title"
-                        >
-                          Key Achievements:
-                        </Typography>
-                        <ul>
-                          {edu.achievements.map((item, i) => (
-                            <li key={i}>{item}</li>
-                          ))}
-                        </ul>
-                      </Box>
-                    )}
-                  </Paper>
-                ))}
-              </Box>
-            </Collapse>
-          </Box>
+              <motion.div
+                className="bubble-title"
+                initial={{ opacity: 0.8, y: 10 }}
+                animate={{
+                  opacity: isSelected ? 1 : 0.8,
+                  y: isSelected ? [0, -5, 0] : 10,
+                }}
+                transition={{
+                  y: {
+                    duration: 0.6,
+                    ease: "backOut",
+                  },
+                }}
+              >
+                {item.title}
+              </motion.div>
 
-          {/* Experience Section */}
-          <Box className="section" id="experience-section">
-            <Box
-              className="section-header clickable"
-              onClick={() => {
-                toggleSection("experience");
-                scrollToSection("experience-section");
-              }}
-            >
-              <ExperienceIcon className="section-icon" />
-              <Typography variant="h5" className="section-title">
-                Professional Experience
-              </Typography>
-              <ExpandMoreIcon
-                className={`expand-icon ${
-                  expanded.experience ? "expanded" : ""
-                }`}
-              />
-            </Box>
-            <Collapse in={expanded.experience}>
-              <Box className="experience-container">
-                {experience.map((exp, index) => (
-                  <Paper key={index} className="experience-item" elevation={2}>
-                    <Typography variant="h6" className="experience-role">
-                      {exp.role}
-                    </Typography>
-                    <Typography className="experience-company">
-                      {exp.company} • {exp.period}
-                    </Typography>
-                    <Typography className="experience-description">
-                      {exp.description}
-                    </Typography>
-                  </Paper>
-                ))}
-              </Box>
-            </Collapse>
-          </Box>
+              {isSelected && (
+                <motion.div
+                  className="active-indicator"
+                  initial={{ scale: 0 }}
+                  animate={{ scale: 1 }}
+                  transition={{
+                    type: "spring",
+                    stiffness: 300,
+                    damping: 10,
+                  }}
+                />
+              )}
+            </motion.div>
+          );
+        })}
+      </motion.div>
 
-          {/* Achievements Section */}
-          <Box className="section" id="achievements-section">
-            <Box
-              className="section-header clickable"
-              onClick={() => {
-                toggleSection("achievements");
-                scrollToSection("achievements-section");
-              }}
-            >
-              <AchievementIcon className="section-icon" />
-              <Typography variant="h5" className="section-title">
-                Honors & Awards
-              </Typography>
-              <ExpandMoreIcon
-                className={`expand-icon ${
-                  expanded.achievements ? "expanded" : ""
-                }`}
-              />
-            </Box>
-            <Collapse in={expanded.achievements}>
-              <Box className="achievements-container">
-                {achievements.map((achievement, index) => (
-                  <Paper key={index} className="achievement-item" elevation={2}>
-                    <Typography className="achievement-text">
-                      {achievement}
-                    </Typography>
-                  </Paper>
-                ))}
-              </Box>
-            </Collapse>
-          </Box>
-        </Paper>
+      {/* Playful Content Card */}
+      <motion.div
+        className="content-card"
+        initial={{ opacity: 0, y: 50 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.5 }}
+        style={{
+          borderColor: aboutData[activeTab].color,
+          boxShadow: `0 10px 30px ${aboutData[activeTab].color}33`,
+        }}
+      >
+        {/* Content Panel */}
+        <motion.div
+          key={activeTab}
+          initial={{ opacity: 0, x: -20 }}
+          animate={{ opacity: 1, x: 0 }}
+          exit={{ opacity: 0, x: 20 }}
+          transition={{ duration: 0.5 }}
+          className="content-panel"
+        >
+          <Typography variant="h3" className="panel-title">
+            {aboutData[activeTab].title}
+          </Typography>
+
+          <ul className="panel-content">
+            {aboutData[activeTab].content.map((point, i) => (
+              <motion.li
+                key={i}
+                initial={{ opacity: 0, x: -10 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ delay: 0.3 + i * 0.1 }}
+                whileHover={{
+                  x: 5,
+                  color: aboutData[activeTab].color,
+                }}
+              >
+                <motion.span
+                  className="bullet"
+                  style={{ backgroundColor: aboutData[activeTab].color }}
+                  animate={{
+                    scale: [1, 1.2, 1],
+                  }}
+                  transition={{
+                    duration: 2,
+                    repeat: Infinity,
+                    repeatType: "reverse",
+                    delay: i * 0.2,
+                  }}
+                />
+                {point}
+              </motion.li>
+            ))}
+          </ul>
+        </motion.div>
+
+        {/* Skills Cloud */}
+        <motion.div
+          className="skills-cloud"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.7 }}
+        >
+          <Typography variant="h4" className="skills-title">
+            My Superpowers
+          </Typography>
+          <div className="skills-container">
+            {aboutData[activeTab].skills.map((skill, i) => (
+              <motion.div
+                key={i}
+                className="skill-tag"
+                style={{
+                  backgroundColor: aboutData[activeTab].color,
+                  color: "white",
+                }}
+                initial={{ scale: 0, rotate: -10 }}
+                animate={{ scale: 1, rotate: 0 }}
+                transition={{
+                  delay: 0.8 + i * 0.1,
+                  type: "spring",
+                  stiffness: 200,
+                }}
+                whileHover={{
+                  y: -5,
+                  rotate: [0, 5, -5, 0],
+                  transition: { duration: 0.5 },
+                }}
+              >
+                {skill}
+                <motion.span
+                  className="sparkle"
+                  initial={{ scale: 0 }}
+                  animate={{ scale: [0, 1, 0] }}
+                  transition={{
+                    delay: 1 + i * 0.15,
+                    duration: 0.5,
+                  }}
+                />
+              </motion.div>
+            ))}
+          </div>
+        </motion.div>
+
+        {/* Cute Character */}
+        <motion.div
+          className="character"
+          animate={{
+            y: [0, -10, 0],
+          }}
+          transition={{
+            duration: 3,
+            repeat: Infinity,
+            repeatType: "reverse",
+            ease: "easeInOut",
+          }}
+        >
+          👨‍💻
+          <motion.div
+            className="thought-bubble"
+            initial={{ scale: 0 }}
+            animate={{ scale: 1 }}
+            transition={{ delay: 1 }}
+          >
+            {activeTab === 0 && "I love coding!"}
+            {activeTab === 1 && "Learning never stops!"}
+            {activeTab === 2 && "Let's work together!"}
+            {activeTab === 3 && "Achievements unlocked!"}
+          </motion.div>
+        </motion.div>
+      </motion.div>
+
+      {/* Floating Juice Glass */}
+      <motion.div
+        className="juice-glass"
+        animate={{
+          y: [0, -20, 0],
+          rotate: [0, 5, -5, 0],
+        }}
+        transition={{
+          duration: 8,
+          repeat: Infinity,
+          repeatType: "reverse",
+          ease: "easeInOut",
+        }}
+      >
+        <div className="glass">
+          <div
+            className="juice"
+            style={{ backgroundColor: aboutData[activeTab].color }}
+          />
+          <div className="straw" />
+        </div>
       </motion.div>
     </Box>
   );

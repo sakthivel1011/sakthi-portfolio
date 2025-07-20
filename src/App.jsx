@@ -9,18 +9,18 @@ import WaterDrops from "./components/waterdrop/WaterDrops";
 const App = () => {
   return (
     <CursorProvider>
-      <div style={{ cursor: "none" }}>
-        <CustomCursor />
-        <WaterDrops />
-        <BrowserRouter>
+      <BrowserRouter basename="/sakthi-portfolio/">
+        <div style={{ cursor: "none" }} className="app-root">
+          <CustomCursor />
+          <WaterDrops />
           <div className="app-container">
             <Navbar />
             <main className="main-content">
               <AppRoutes />
             </main>
           </div>
-        </BrowserRouter>
-      </div>
+        </div>
+      </BrowserRouter>
     </CursorProvider>
   );
 };
