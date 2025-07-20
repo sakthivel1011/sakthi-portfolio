@@ -76,6 +76,7 @@ import {
   recomposeColor,
   red_default,
   requirePropFactory_default,
+  require_prop_types,
   require_react_is,
   resolveBreakpointValues,
   resolveProps,
@@ -105,14 +106,11 @@ import {
   useRtl,
   useTheme,
   useThemeProps
-} from "./chunk-TDTSLUP7.js";
-import "./chunk-MFUCCS4W.js";
+} from "./chunk-IPN32FMS.js";
 import {
   require_jsx_runtime
 } from "./chunk-7H6SUTDI.js";
-import {
-  require_prop_types
-} from "./chunk-ZM6LQ52J.js";
+import "./chunk-MFUCCS4W.js";
 import {
   require_react
 } from "./chunk-4X6FFAZQ.js";
